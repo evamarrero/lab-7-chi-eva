@@ -36,5 +36,38 @@ get_guns
 
 ```
 
+Im the collaborator, Isabelle and I am going to do chi square. 
+
+Question-
+
+Is there a significant difference in gun controll perspectives (as related to acces to gun) for males and females? 
+or
+Is there a significant association between sex and gun control reccomendations? 
+or
+Is perception of gun control access indipendent of sex?
+
+
+Chi-Square
+```{r}
+
+guns_prop<- prop.table(as.matrix(get_guns), 1)
+guns_prop
+
+# performing chi-square
+guns_x2<-chisq.test(get_guns)
+guns_x2
+
+
+
+
+```
+
+Ho no association
+Ha there is an association 
+
+Reccomeded government action on gun access differs significantl for males and females ($\chi^2$(`r guns_x2$parameter`) = ....,  p<0.001)
+
+
+
 
 

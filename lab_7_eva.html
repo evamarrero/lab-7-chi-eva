@@ -130,7 +130,63 @@ $(document).ready(function () {
 
 
 <p>I’m Eva and I’m adding some text here to see if my collaborators can get this file.</p>
-<p>Its Isabelle, Im updating some text.</p>
+<p>======= I’m Eva again, and I’m updating some text.</p>
+<p>Im the collaborator adding text</p>
+<p>Creator (Eva):</p>
+<p>Getting the gc_vf data, loading the tidyverse, and getting some summary counts</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.0.0     ✔ purrr   0.2.5
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.6
+## ✔ tidyr   0.8.1     ✔ stringr 1.3.1
+## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
+<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>gc_df &lt;- read_csv(&quot;gc_df.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   caseid = col_integer(),
+##   make_get_guns = col_character(),
+##   gender = col_character(),
+##   ideology = col_character(),
+##   trust_in_gov = col_character(),
+##   religion = col_character(),
+##   race = col_character()
+## )</code></pre>
+<pre class="r"><code>get_guns &lt;- gc_df %&gt;% 
+  filter(gender != &quot;NA&quot;, make_get_guns != &quot;NA&quot;) %&gt;% 
+  count(gender, make_get_guns) %&gt;% 
+  spread(make_get_guns, n) %&gt;% 
+  select(-gender)
+
+rownames(get_guns) &lt;- c(&quot;Female&quot;, &quot;Male&quot;)</code></pre>
+<pre><code>## Warning: Setting row names on a tibble is deprecated.</code></pre>
+<pre class="r"><code>get_guns</code></pre>
+<pre><code>## # A tibble: 2 x 3
+##   Easier `More Difficult`  Same
+## *  &lt;int&gt;            &lt;int&gt; &lt;int&gt;
+## 1     91             1752  1210
+## 2    231             1146  1461</code></pre>
+<p>Im the collaborator, Isabelle and I am going to do chi square.</p>
+<p>Question-</p>
+<p>Is there a significant difference in gun controll perspectives (as related to acces to gun) for males and females? or Is there a significant association between sex and gun control reccomendations? or Is perception of gun control access indipendent of sex?</p>
+<p>Chi-Square</p>
+<pre class="r"><code>guns_prop&lt;- prop.table(as.matrix(get_guns), 1)
+guns_prop</code></pre>
+<pre><code>##            Easier More Difficult      Same
+## Female 0.02980675      0.5738618 0.3963315
+## Male   0.08139535      0.4038055 0.5147992</code></pre>
+<pre class="r"><code># performing chi-square
+guns_x2&lt;-chisq.test(get_guns)
+guns_x2</code></pre>
+<pre><code>## 
+##  Pearson's Chi-squared test
+## 
+## data:  get_guns
+## X-squared = 203.6, df = 2, p-value &lt; 2.2e-16</code></pre>
+<p>Ho no association Ha there is an association</p>
+<p>Reccomeded government action on gun access differs significantl for males and females (<span class="math inline">\(\chi^2\)</span>(2) = …., p&lt;0.001)</p>
 
 
 
